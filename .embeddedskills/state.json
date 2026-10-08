@@ -1,0 +1,22 @@
+{
+  "last_build": {
+    "provider": "keil",
+    "action": "build",
+    "project": "Project.uvprojx",
+    "target": "Target 1",
+    "log_dir": ".embeddedskills/build",
+    "artifacts": {
+      "axf_file": "Objects/Project.axf",
+      "flash_file": "Objects/Project.axf",
+      "debug_file": "Objects/Project.axf",
+      "output_dir": "Objects",
+      "log_file": ".embeddedskills/build/Project-Target 1-build.log"
+    },
+    "axf_file": "Objects/Project.axf",
+    "flash_file": "Objects/Project.axf",
+    "debug_file": "Objects/Project.axf",
+    "output_dir": "Objects",
+    "log_file": ".embeddedskills/build/Project-Target 1-build.log",
+    "timestamp": "2026-10-06T11:56:38+08:00"
+  }
+}

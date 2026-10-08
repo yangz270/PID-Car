@@ -1,0 +1,6 @@
+--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork --split_sections -I .\Library -I .\Start -I .\User -I .\Hardware
+-I.\RTE\_Target_1
+-ID:\Keil5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device\Include
+-ID:\Keil5\ARM\CMSIS\Include
+-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+-o .\objects\encode.o --omf_browse .\objects\encode.crf --depend .\objects\encode.d "Hardware\Encode.c"
