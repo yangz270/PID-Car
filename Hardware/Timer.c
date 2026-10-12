@@ -1,4 +1,4 @@
-#include "stm32f10x.h"                  // Device headers             
+#include "stm32f10x.h"                  // Device headers            
 #include "Timer.h"
 
 void Timer_Init(void)

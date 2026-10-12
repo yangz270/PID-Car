@@ -154,8 +154,8 @@ int main(void)
         {
             printf("%u,", (unsigned int)((Sample.BlackState >> i) & 1U));
         }
-        // 后九列：位置、左右目标、左右实测、位图、压线数、有效、运行开关
-        printf("%.2f,%d,%d,%d,%d,%u,%u,%u,%u\r\n",
+        // 后十二列：原九列 + Mode、连续丢线周期、累计丢线次数
+        printf("%.2f,%d,%d,%d,%d,%u,%u,%u,%u,%u,%u,%lu\r\n",
 				(double)Sample.Position,
 				(int)Sample.LeftTarget,
 				(int)Sample.RightTarget,
@@ -163,7 +163,10 @@ int main(void)
 				(unsigned int)Sample.BlackState,
 				(unsigned int)Sample.BlackCount,
 				(unsigned int)Sample.Valid,
-				(unsigned int)LINE_RUN_ENABLE);
+				(unsigned int)LINE_RUN_ENABLE,
+                (unsigned int)Sample.Mode,
+                (unsigned int)Sample.LostTicks,
+                (unsigned long)Sample.LostEvents);
         Delay_ms(50);  // 串口显示周期，不是 PID 控制周期
     
 	}
