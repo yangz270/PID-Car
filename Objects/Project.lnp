@@ -37,6 +37,7 @@
 ".\objects\timer.o"
 ".\objects\gray.o"
 ".\objects\usart.o"
+".\objects\bluetooth.o"
 ".\objects\pid.o"
 ".\objects\speedcontrol.o"
 ".\objects\linefollow.o"

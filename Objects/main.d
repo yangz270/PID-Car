@@ -40,3 +40,4 @@
 .\objects\main.o: .\Algorithm\PID.h
 .\objects\main.o: .\Hardware\Gray.h
 .\objects\main.o: .\Control\LineFollow.h
+.\objects\main.o: .\Hardware\Bluetooth.h

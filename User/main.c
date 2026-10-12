@@ -11,6 +11,7 @@
 #include "PID.h"
 #include "Gray.h"
 #include "LineFollow.h"
+#include "Bluetooth.h"
 
 //volatile int16_t test_LeftCount  = 0;
 //volatile int16_t test_RightCount = 0;
@@ -19,14 +20,14 @@
 //	uint8_t State;
 //    uint8_t i;
 
-
 int main(void)
 {	
 	LineFollow_StateTypeDef Sample;
     int LeftSpeed;
     int RightSpeed;
     uint32_t Primask;
-    uint8_t i;
+	uint8_t BluetoothTicks = 0;
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 
 //	MyGPIO_Init();
 	Motor_Init();
@@ -40,7 +41,7 @@ int main(void)
 	SpeedControl_Init();
     LineFollow_Init();
 //	SpeedControl_SetTarget(1000, 1000);
-
+	Bluetooth_Init();
     Timer_Init();						//TIMer要放在最后的原因是，初始化后就会开启中断的周期，可以避免Speed还没初始化好，中断就开启了，导致数据异常
 
 	while (1)
@@ -142,6 +143,7 @@ int main(void)
 
 //        Delay_ms(50);
 // 短暂屏蔽中断，取得同一次控制周期的数据快照
+		Bluetooth_Process();
 		Primask = __get_PRIMASK();
 		__disable_irq();
         Sample = LineFollow_State;
@@ -149,24 +151,13 @@ int main(void)
         RightSpeed = (int)Speed_Right_Get();
         __set_PRIMASK(Primask);
 
-        // FireWater 前八列：OUT1～OUT8，黑=1，白=0
-        for (i = 0; i < 8; i++)
-        {
-            printf("%u,", (unsigned int)((Sample.BlackState >> i) & 1U));
-        }
-        // 后十二列：原九列 + Mode、连续丢线周期、累计丢线次数
-        printf("%.2f,%d,%d,%d,%d,%u,%u,%u,%u,%u,%u,%lu\r\n",
-				(double)Sample.Position,
-				(int)Sample.LeftTarget,
-				(int)Sample.RightTarget,
-				LeftSpeed, RightSpeed,
-				(unsigned int)Sample.BlackState,
-				(unsigned int)Sample.BlackCount,
-				(unsigned int)Sample.Valid,
-				(unsigned int)LINE_RUN_ENABLE,
-                (unsigned int)Sample.Mode,
-                (unsigned int)Sample.LostTicks,
-                (unsigned long)Sample.LostEvents);
+		if (++BluetoothTicks >= 4)
+{
+    BluetoothTicks = 0;
+    Bluetooth_SendTelemetry(Sample.Position, Sample.LeftTarget,
+                            Sample.RightTarget, (float)LeftSpeed,
+                            (float)RightSpeed);
+}
         Delay_ms(50);  // 串口显示周期，不是 PID 控制周期
     
 	}

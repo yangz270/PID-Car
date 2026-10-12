@@ -163,3 +163,32 @@ uint8_t LineFollow_Update(uint8_t RawState)
     LineFollow_State.Mode = LINE_MODE_TRACK;
     return 1;
 }
+
+uint8_t LineFollow_SetGains(float Kp, float Kd)
+{
+    uint32_t Primask;
+
+    if (!(Kp >= 0.0f && Kp <= 500.0f &&
+          Kd >= 0.0f && Kd <= 500.0f))
+    {
+        return 0;
+    }
+
+    Primask = __get_PRIMASK();
+    __disable_irq();
+    Line_PID.Kp = Kp;
+    Line_PID.Kd = Kd;
+    __set_PRIMASK(Primask);
+    return 1;
+}
+
+// 只修改指定系数，另一项沿用当前实际生效的值。
+uint8_t LineFollow_SetKp(float Kp)
+{
+    return LineFollow_SetGains(Kp, Line_PID.Kd);
+}
+
+uint8_t LineFollow_SetKd(float Kd)
+{
+    return LineFollow_SetGains(Line_PID.Kp, Kd);
+}

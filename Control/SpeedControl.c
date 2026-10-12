@@ -46,3 +46,23 @@ void SpeedControl_Stop(void)
     Motor_Left_SetSpeed(0);
     Motor_Right_SetSpeed(0);
 }
+
+uint8_t SpeedControl_SetGains(float Kp, float Ki)
+{
+    uint32_t Primask;
+
+    if (!(Kp >= 0.0f && Kp <= 1.0f &&
+          Ki >= 0.0f && Ki <= 0.1f))
+    {
+        return 0;
+    }
+
+    Primask = __get_PRIMASK();
+    __disable_irq();
+    Left_PID.Kp = Kp;
+    Left_PID.Ki = Ki;
+    Right_PID.Kp = Kp;
+    Right_PID.Ki = Ki;
+    __set_PRIMASK(Primask);
+    return 1;
+}

@@ -47,5 +47,8 @@ extern volatile LineFollow_StateTypeDef LineFollow_State;
 void LineFollow_Init(void);
 // 返回 1：有可执行的轮速目标（含找线）；返回 0：要求停车
 uint8_t LineFollow_Update(uint8_t RawState);
+uint8_t LineFollow_SetGains(float Kp, float Kd);
+uint8_t LineFollow_SetKp(float Kp);
+uint8_t LineFollow_SetKd(float Kd);
 
 #endif

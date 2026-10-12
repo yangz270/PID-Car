@@ -22,7 +22,7 @@ void USART1_Init(void)
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
     /* ④ 串口参数：115200, 8 位数据, 无校验, 1 位停止 */
-    USART_InitStructure.USART_BaudRate            = 115200; 						// 波特率：115200 bit/s
+    USART_InitStructure.USART_BaudRate            = 9600; 						// 波特率：9600 bit/s
     USART_InitStructure.USART_WordLength          = USART_WordLength_8b; 			// 字长：8 位（当前无校验，即 8 位数据）
     USART_InitStructure.USART_StopBits            = USART_StopBits_1; 				// 停止位：1 位
     USART_InitStructure.USART_Parity              = USART_Parity_No; 				// 不使用奇偶校验
